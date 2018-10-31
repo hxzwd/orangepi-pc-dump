@@ -1,0 +1,65 @@
+body
+{
+	background-color: black;
+}
+
+h1
+{
+	color: white;
+}
+
+p
+{
+	color: white;
+}
+
+b
+{
+	color: white;
+}
+
+#thermal_data
+{
+	font-size: 32pt;
+	color: red;
+}
+
+#header_0
+{
+	
+}
+
+#header_1
+{
+
+}
+
+.header_div_0
+{
+	position: relative;
+	float: left;
+	width: 25%;
+	left: 0px;
+}
+
+.header_div_1
+{
+	position: relative;
+	float: left;
+	width: 75%;
+	right: 0px;
+}
+
+.header_div_s:after
+{
+	content: "";
+	clear: both;
+	display: table;
+	
+}
+
+.content_div
+{
+			
+	width: 100%;
+}

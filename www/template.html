@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<title>Images</title>
+	<style type = "text/css">
+		#left1 { position: absolute; left: 0; top: auto; width: 25%; }
+		#left2 { position: absolute; left: 25%; top: auto; width: 25%; }
+		#right1 { position: absolute; right: 0; top: auto; width: 25%; }
+		#right2 { position: absolute; right: 25%; top: auto; width: 25%; }
+	<!--	#Img { width: 50%; height: 50%; } -->
+	</style>
+	<script>
+		function iclick() {
+			var elem = document.getElementById("Img");
+			var elem1 = document.getElementById("zoom_img");
+			var elem2 = document.getElementById("zoom_block");
+//			if(elem1.src !== "") {
+//				return;
+//			}
+			elem2.style.display = "block";
+//			elem2.style.z-index = "4";
+//			elem1.style.z-index = "4";
+			elem2.style.position = "absolute";
+			elem2.style.right = "10%";
+			elem2.style.left = "10%";
+			elem2.style.top = "10%";
+			elem2.style.bottom = "10%";
+			elem2.style.width = "80%";
+			elem2.style.height = "80%";
+			elem1.src = elem.src;
+			elem1.style.display = "block";
+		}
+		function zoom_iclick() {
+			var elem = document.getElementById("zoom_img");
+			var elem2 = document.getElementById("zoom_block");
+			if(elem.src === "") {
+				return;
+			}
+			elem.src = "";
+			elem2.style.display = "none";
+			elem.style.display = "none";
+		}
+	</script>
+</head>
+<body>
+	<h1>Imgs:</h1>
+	<b>view mode: </b>
+	<form action="">
+		<input type = "hidden" name = "view_mode" value = "S">
+		<input type = "submit">
+	</form>
+	<hr>
+
+	<div id = "zoom_block" style = "display: none; z-index: 4; position: absolute;">
+		<p><a><img id = "zoom_img" onclick="zoom_iclick()" src = "" style = "position: relative; z-index: 4; display: none;"></a></p>
+	</div>
+
+	<div id = "left1">
+		<p>ksdl;fks;lkdfsdfkl;</p>
+		<p><a><img id = "Img" onclick="iclick()" style = "width: 50%; height: 50%;" src = "/static/get_img_image.jpg"></a></p>
+		<hr>
+	</div>
+
+
+	<div id = "left2">
+		<p>ksdl;fks;lkdfsdfkl;</p>
+		<p><a><img id = "Img" onclick="iclick()" style = "width: 50%; height: 50%;" src = "/static/i_img_0.png"></a></p>
+		<hr>
+	</div>
+
+
+	<div id = "right2">
+		<p>ksdl;fks;lkdfsdfkl;</p>
+		<p><a><img id = "Img" onclick="iclick()" style = "width: 50%; height: 50%;" src = "/static/get_img_image.jpg"></a></p>
+		<hr>
+	</div>
+
+
+	<div id = "right1">
+		<p>ksdl;fks;lkdfsdfkl;</p>
+		<p><a><img id = "Img" onclick="iclick()" style = "width: 50%; height: 50%;" src = "/static/i_img_1.jpg"></a></p>
+		<hr>
+	</div>
+
+</body>
+</html>

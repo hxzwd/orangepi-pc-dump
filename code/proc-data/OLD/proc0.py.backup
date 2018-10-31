@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from __future__ import unicode_literals
+
+
+import os
+import re
+import io
+import sys
+import pickle
+
+def read_data(fn):
+	d = []
+	with io.open(fn, "r", encoding = "utf-8") as handle:
+		d = handle.readlines()
+		handle.close()
+	for i, line in enumerate(d):
+		if not ";" in line:
+			continue
+		else:
+			d[i] = list(map(lambda x: x.strip().replace(",", ".").replace(":", "-"), line.split(";")))[1:]
+			if d[i][-1]  == u"":
+				d[i] = d[i][0:-1]
+			if "}" in line and "}" in line:
+				tmp = list(map(lambda x: float(x.replace("}", "").replace("{", "")), d[i]))
+				d[i] = list(map(list, zip(tmp[0::4], tmp[1::4], tmp[2::4], tmp[3::4])))
+			else:
+				if re.match(r"^([0-9]+[\.]{1}[0-9]+|[0-9]+)$", d[i][0]):
+					d[i] = list(map(float, d[i]))
+	return d
+
+
+
+def reduce_data(data):
+	res = []
+	for i in range(0, len(data[0])):
+		tmp = []
+		for j in data:
+			tmp += j[i]
+		res.append(tmp)
+	return res
+
+
+if len(sys.argv) >= 2:
+	celln = sys.argv[1]
+	if not re.match(r"^[0-9]{2}[\-]{1}[0-9]{2}$", celln):
+		celln = "40-41"
+else:
+	celln = "40-41"
+
+cells_list = [ i.strip() for i in os.popen("./proc4.sh | grep -E \"[0-9]{2}[\-]{1}[0-9]{2}\" -o", "r", 1).readlines() ]
+
+
+buf = os.popen("./proc4.sh {0}".format(celln), "r", 1)
+files = [ i.strip().replace("/", "//") for i in buf.readlines() ]
+params = [ i.strip() for i in os.popen("cat {0} | head -n 15 | cut -d \";\" -f1".format(files[0]), "r", 1).readlines() ]
+params[0] = "cell coord"
+
+res = list(map(read_data, files))
+
+data = reduce_data(res)[:-1]
+data[0] = "".join(data[0]).split("\n")[0]
+
+if "-d" in sys.argv:
+	fn = open("BIN_DUMP//{0}.bin".format(celln), "wb")
+	pickle.dump((data[0], data[1:]), fn)
+	fn.close()
+

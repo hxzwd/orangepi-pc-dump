@@ -1,0 +1,109 @@
+
+
+
+#cpu temperature
+armbianmonitor -m
+
+#nmap scanner
+sudo nmap -O 192.168.0.105		(host`s os detection)
+sudo nmap -sn 192.168.0.*		(check hosts (up or not?)  192.168.0.0 - 192.168.0.255 by ping scan)
+sudo nmap -sn 192.168.0.0/16		(check hosts (up or not?)  192.168.0.0 - 192.168.255.255 by ping scan)
+sudo nmap -sO 192.168.0.105		(check host`s services and  protocols with open ports)
+sudo nmap -sV 192.168.0.105		(check open ports and services of this ports for host)
+sudo nmap -sV 192.168.0.105 -p80-8000	(check open ports (from range in arg -p) and services of this ports for host)
+
+
+#netcat check ports
+netcat -vn 192.168.0.106 8000			(check TCP port (open or not?) 8000 for host and connect if open)
+netcat -vnz 192.168.0.106 80-8000		(check TCP ports (open or not?) from range 80-8000 for host without connection)
+netcat -vnu 192.168.0.106 8000			(check UDP port (open or not?) 8000 for host and connect if open)
+netcat -vnzu 192.168.0.106 80-8000		(check UDP ports (open or not?) from range 80-8000 for host without connection)
+while true; do netcat -u localhost 8000; done	(netcat receive and print several UDP packets)
+netcat 192.168.0.106 8000 < file.txt		(netcat send file to remote host)
+netcat -lvp 8000 > /downloads/file.txt		(netcat receive file from remote host)
+
+
+#netcat send UDP packet
+echo -n "MESSAGE" | netcat -u -wl 192.168.0.106 8000
+
+#netcat receive and print one UDP packet
+netcat -u localhost 8000
+
+#netcat web server
+while true; do { echo -e "HTTP/1.1 200 Ok\r\n"; cat index.html; } |  netcat -lp 8888; done
+
+#netcat chat between nodes
+netcat -lp 8000						(first node (server) with address 192.168.0.106)
+netcat 192.168.0.106 8000				(second node (client))
+
+#netcat remote shell
+while true; do { netcat -lp 8000; } | sh; done;		(server machine (host address: 192.168.0.106) with reverse shell)
+netcat 192.168.0.106 8000				(remote machine)
+
+
+#open ports
+ncat -v -l -k <port>
+iptables -I INPUT -p tcp -m tcp --dport <port> -j ACCEPT
+
+#allow ports in firewall rules
+sudo ufw allow 8888/tcp
+
+#show ports
+netstat -a (-n, -b ?)
+lsof -l
+iptables -L -n -v
+
+
+#get local ip and MAC
+sudo ifconfig -a
+ip address show
+
+#change local ip
+sudo ifconfig eth0 192.168.0.216 netmask 255.255.255.0
+
+
+#run nginx and python cgi (need root)
+chmod 644 <html files in /home/hjk/www>
+chmod 755 cgi-bin/<python files in /home/hjk/www/cgi-bin>
+sudo service nginx restart
+sudo service fcgiwrap restart
+sudo service --status-all
+
+
+#check route
+sudo traceroute xynta1.ddns.net -p 8000 -d
+
+
+
+#ssh and scp
+ssh <username>@<host address>[:<port>]
+		( ssh root@127.0.0.1 )
+scp /home/user1/file.txt user2@192.168.0.100:/home/user2/uploads
+		( upload file to remote server )
+scp user2@192.168.0.100:/home/user2/file_other.txt /home/user/downloads
+		( download file from remote server )
+
+
+
+
+
+#listen music from terminal
+mpg321 /home/hjk/music/track1.mp3 -K
+		( with keys: [*][/] = [+][-] volume; [n][m] = [next][mute] )
+mpg321 /home/hjk/music/track1.mp3 -L 256
+		( repeat track1.mp3 256 times )
+
+
+
+#set datetime frome timestamp
+sudo date +%s -s @1528711034
+
+#timezone variants
+ls /usr/share/zoneinfo
+
+#get current timezone
+cat /etc/timezone
+date "+%z %Z"
+
+#set new timezone
+sudo ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime 

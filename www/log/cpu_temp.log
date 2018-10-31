@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset = "utf-8">
+	<title>CPU TEMPERATURE</title>
+	
+	<link rel = "stylesheet" type = "text/css" href = "../css/cpu_temp.template.css">
+</head>
+
+{template_error_messages_block}
+
+<body>
+
+	<h1>{template_header_0}</h1>
+	<hr>
+
+	<p>{template_cpu_thermal}</p>
+
+
+</body>
+</html>
